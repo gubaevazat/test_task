@@ -29,6 +29,7 @@ PROJECT_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'djoser',
+    'django_filters',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -48,6 +49,15 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+DJOSER = {
+    'SERIALIZERS': {
+        # 'user': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.UserSerializer',
+    },
+}
+
+PAGINATION_PAGE_SIZE = 5
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
