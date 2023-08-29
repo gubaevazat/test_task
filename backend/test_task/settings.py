@@ -32,19 +32,19 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'djoser',
     'django_filters',
+    'drf_spectacular',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -55,9 +55,10 @@ SIMPLE_JWT = {
 DJOSER = {
     'SERIALIZERS': {
         # 'user': 'api.serializers.UserSerializer',
-        'current_user': 'api.serializers.UserSerializer',
+        'current_user': 'api.serializers.CustomUserSerializer',
     },
 }
+
 
 PAGINATION_PAGE_SIZE = 5
 

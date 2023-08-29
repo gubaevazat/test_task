@@ -4,6 +4,7 @@ from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 from djoser import serializers as djoser_serializers
+from drf_spectacular.utils import extend_schema_field
 
 from assets.models import Asset, AssetInWork
 
@@ -61,7 +62,7 @@ class AssetInWorkSerializerPost(serializers.ModelSerializer):
         return AssetInWorkSerializerGet(instance, context=self.context).data
 
 
-class UserSerializer(djoser_serializers.UserSerializer):
+class CustomUserSerializer(djoser_serializers.UserSerializer):
 
     assets_in_work = serializers.SerializerMethodField()
 
@@ -71,9 +72,8 @@ class UserSerializer(djoser_serializers.UserSerializer):
                   'last_name', 'assets_in_work')
         read_only_fields = ('id', 'assets_in_work')
 
+    @extend_schema_field(AssetInWorkSerializerGet(many=True))
     def get_assets_in_work(self, obj):
-        print(type(obj))
         assets = list(AssetInWork.objects.filter(
             worker=obj).values())
-        print(assets)
         return AssetInWorkSerializerGet(assets, many=True).data
